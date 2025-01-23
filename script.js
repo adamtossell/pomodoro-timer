@@ -8,6 +8,8 @@ const startButton = document.getElementById('start');
 const resetButton = document.getElementById('reset');
 const modeText = document.getElementById('mode-text');
 const modeToggle = document.getElementById('mode-toggle');
+const sunIcon = modeToggle.querySelector('.sun-icon');
+const moonIcon = modeToggle.querySelector('.moon-icon');
 const toggleLabel = modeToggle.parentElement.querySelector('.toggle-label');
 
 const WORK_TIME = 25 * 60; // 25 minutes in seconds
@@ -76,15 +78,9 @@ startButton.addEventListener('click', () => {
 
 resetButton.addEventListener('click', resetTimer);
 
-modeToggle.addEventListener('change', () => {
-    clearInterval(timerId);
-    timerId = null;
-    isWorkTime = !modeToggle.checked;
-    timeLeft = isWorkTime ? WORK_TIME : BREAK_TIME;
-    startButton.textContent = 'Start';
-    modeText.textContent = isWorkTime ? 'Work Time' : 'Break Time';
-    toggleLabel.textContent = isWorkTime ? 'Break Mode' : 'Work Mode';
-    updateDisplay(timeLeft);
+modeToggle.addEventListener('click', () => {
+    sunIcon.classList.toggle('hidden');
+    moonIcon.classList.toggle('hidden');
 });
 
 // Initialize display
