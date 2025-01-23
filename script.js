@@ -1,6 +1,7 @@
 let timeLeft;
 let timerId = null;
 let isWorkTime = true;
+let isWorkMode = true;
 
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
@@ -20,6 +21,7 @@ function updateDisplay(timeLeft) {
     const seconds = timeLeft % 60;
     minutesDisplay.textContent = minutes.toString().padStart(2, '0');
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    updateTitle(minutes, seconds);
 }
 
 function switchMode() {
@@ -81,7 +83,24 @@ resetButton.addEventListener('click', resetTimer);
 modeToggle.addEventListener('click', () => {
     sunIcon.classList.toggle('hidden');
     moonIcon.classList.toggle('hidden');
+    isWorkMode = !isWorkMode;
+    
+    // Update timer and mode text
+    if (isWorkMode) {
+        timeLeft = WORK_TIME;  // 25 minutes in seconds
+        modeText.textContent = 'Work Time';
+    } else {
+        timeLeft = BREAK_TIME;  // 5 minutes in seconds
+        modeText.textContent = 'Rest Time';
+    }
+    
+    updateDisplay(timeLeft);
 });
+
+function updateTitle(minutes, seconds) {
+    const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    document.title = `${timeString} - ${isWorkMode ? 'Work' : 'Rest'} Timer`;
+}
 
 // Initialize display
 timeLeft = WORK_TIME;
